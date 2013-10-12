@@ -18,6 +18,8 @@ public class WalkController : MonoBehaviour {
                 moveDirection.y = jumpSpeed;
             
         }
+		
+		moveDirection.Set(moveDirection.x,moveDirection.y,0);
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
     }
