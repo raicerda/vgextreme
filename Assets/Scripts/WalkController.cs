@@ -13,22 +13,26 @@ public class WalkController : MonoBehaviour {
 		
         CharacterController controller = GetComponent<CharacterController>();
 		
-        if (controller.isGrounded || isGrappable) {
+        if (controller.isGrounded) {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton("Jump")){
                 moveDirection.y = jumpSpeed;
+			}
         }
-		moveDirection.Set(moveDirection.x,moveDirection.y,0);
-        moveDirection.y -= gravity * Time.deltaTime;
-        controller.Move(moveDirection * Time.deltaTime);	
 		if(Input.GetKey(KeyCode.Z)){
 			if(isGrappable){
-				moveDirection.Set (moveDirection.x,0,0);
+				moveDirection.Set(moveDirection.x,0,0);
 				//TODO Sprite Changes
-			}			
+				if(Input.GetButton ("Jump")){
+				moveDirection.y = jumpSpeed;
+			}
+			}
 		}
+		moveDirection.Set(moveDirection.x,moveDirection.y,0);
+        moveDirection.y -= gravity * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime);
     }
 	
 	
@@ -39,7 +43,6 @@ public class WalkController : MonoBehaviour {
 	void OnTriggerEnter(Collider target){
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
-			Debug.Log ("OnTriggerEnter");
 		}
 	}
 	
