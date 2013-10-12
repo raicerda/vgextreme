@@ -5,12 +5,14 @@ public class WalkController : MonoBehaviour {
 	public float speed = 6.0F;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
+	private float direction;
 	public bool isGrappable = false;
     private Vector3 moveDirection = Vector3.zero;
 	public CharacterController controller;
 	
 	void Start(){
 		controller = GetComponent<CharacterController>();
+		direction = 1;
 	}
 	
     void Update() {
@@ -23,9 +25,13 @@ public class WalkController : MonoBehaviour {
                 moveDirection.y = jumpSpeed;
 			}
         }else{
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"),moveDirection.y,0);
-			moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection.x *= speed;
+			if(Input.GetAxis("Horizontal")==0){
+				
+			}else{
+				moveDirection = new Vector3(Input.GetAxis("Horizontal"),moveDirection.y,0);
+				moveDirection = transform.TransformDirection(moveDirection);
+            	moveDirection.x *= speed;
+			}
 		}
 		if(Input.GetKey(KeyCode.Z)){
 			if(isGrappable){
@@ -33,7 +39,7 @@ public class WalkController : MonoBehaviour {
 				//TODO Sprite Changes
 				if(Input.GetButton ("Jump")){
 					moveDirection.y = jumpSpeed;
-					moveDirection.x = jumpSpeed*-1;
+					moveDirection.x = jumpSpeed*direction;
 				}
 			}
 		}
@@ -51,6 +57,9 @@ public class WalkController : MonoBehaviour {
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
 		}
+		direction = Mathf.Sign(new Vector3(target.transform.localPosition.x-transform.localPosition.x,
+			target.transform.localPosition.y-transform.localPosition.y,0).x)*-1;
+		Debug.Log(direction);
 		
 	}
 	
