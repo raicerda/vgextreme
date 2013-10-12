@@ -12,7 +12,6 @@ public class WalkController : MonoBehaviour {
     void Update() {
 		
         CharacterController controller = GetComponent<CharacterController>();
-		
         if (controller.isGrounded) {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
@@ -27,8 +26,14 @@ public class WalkController : MonoBehaviour {
 				//TODO Sprite Changes
 				if(Input.GetButton ("Jump")){
 				moveDirection.y = jumpSpeed;
+				moveDirection.x = 0.8F * -1;
 			}
 			}
+		}
+		if (!controller.isGrounded){
+			moveDirection.x = Input.GetAxis("Horizontal");
+			moveDirection = transform.TransformDirection(moveDirection);
+			//moveDirection *= speed;
 		}
 		moveDirection.Set(moveDirection.x,moveDirection.y,0);
         moveDirection.y -= gravity * Time.deltaTime;
