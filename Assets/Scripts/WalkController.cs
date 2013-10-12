@@ -44,7 +44,7 @@ public class WalkController : MonoBehaviour {
 			}
 		}
 		moveDirection.Set(moveDirection.x,moveDirection.y,0);
-        moveDirection.y -= gravity * Time.deltaTime;
+        if(isGrappable && Input.GetKey(KeyCode.Z)){}else{ moveDirection.y -= gravity * Time.deltaTime;}
         controller.Move(moveDirection * Time.deltaTime);
     }
 	
