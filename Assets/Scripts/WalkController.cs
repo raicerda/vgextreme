@@ -16,7 +16,6 @@ public class WalkController : MonoBehaviour {
 	}
 	
     void Update() {
-				
         if (controller.isGrounded) {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             moveDirection = transform.TransformDirection(moveDirection);
@@ -57,8 +56,7 @@ public class WalkController : MonoBehaviour {
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
 		}
-		direction = Mathf.Sign(new Vector3(target.transform.localPosition.x-transform.localPosition.x,
-			target.transform.localPosition.y-transform.localPosition.y,0).x)*-1;
+		direction = Mathf.Sign (moveDirection.x)*-1;
 		Debug.Log(direction);
 		
 	}
