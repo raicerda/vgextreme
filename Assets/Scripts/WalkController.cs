@@ -13,21 +13,19 @@ public class WalkController : MonoBehaviour {
 		
         CharacterController controller = GetComponent<CharacterController>();
 		
-        if (controller.isGrounded) {
+        if (controller.isGrounded || isGrappable) {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
             if (Input.GetButton("Jump"))
                 moveDirection.y = jumpSpeed;
-            
         }
 		moveDirection.Set(moveDirection.x,moveDirection.y,0);
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);	
 		if(Input.GetKey(KeyCode.Z)){
 			if(isGrappable){
-				rigidbody.velocity = Vector3.zero;
-				Debug.Log("Entre");
+				moveDirection.Set (moveDirection.x,0,0);
 				//TODO Sprite Changes
 			}			
 		}
@@ -37,28 +35,18 @@ public class WalkController : MonoBehaviour {
 	
 	
 	// Check if the character can grapple to the wall
-	void OnCollisionEnter(Collision target){
-		if (target.transform.tag.Equals("dirtWall")) {
-			isGrappable = true;
-			//Debug.Log ("Entre al Metodo");
-		}
-		//Debug.Log("Entre "+target.transform.tag);
-	}
-	
-	void OnCollisionExit(Collision target){
-		if (target.transform.tag == "dirtWall"){
-			isGrappable = false;
-			//Debug.Log("Sali del metodo");
-		}
-	}
 	
 	void OnTriggerEnter(Collider target){
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
-			//Debug.Log ("Entre al Metodo");
+			Debug.Log ("OnTriggerEnter");
 		}
-		//Debug.Log("Entre "+target.transform.tag);
 	}
 	
+	void OnTriggerExit(Collider target){
+		if (target.transform.tag.Equals("dirtWall")) {
+			isGrappable = false;
+		}
+	}
 }
 
