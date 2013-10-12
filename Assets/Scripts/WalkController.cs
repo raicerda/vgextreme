@@ -38,17 +38,26 @@ public class WalkController : MonoBehaviour {
 	
 	// Check if the character can grapple to the wall
 	void OnCollisionEnter(Collision target){
-		if (target.transform.tag == "dirtWall") {
+		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
-			Debug.Log ("Entre al Metodo");
+			//Debug.Log ("Entre al Metodo");
 		}
+		//Debug.Log("Entre "+target.transform.tag);
 	}
 	
 	void OnCollisionExit(Collision target){
 		if (target.transform.tag == "dirtWall"){
 			isGrappable = false;
-			Debug.Log("Sali del metodo");
+			//Debug.Log("Sali del metodo");
 		}
+	}
+	
+	void OnTriggerEnter(Collider target){
+		if (target.transform.tag.Equals("dirtWall")) {
+			isGrappable = true;
+			//Debug.Log ("Entre al Metodo");
+		}
+		//Debug.Log("Entre "+target.transform.tag);
 	}
 	
 }
