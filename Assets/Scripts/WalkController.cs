@@ -5,6 +5,7 @@ public class WalkController : MonoBehaviour {
 	public float speed = 6.0F;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
+	public bool isAlive = true;
 	private float direction;
 	public bool isGrappable = false;
     private Vector3 moveDirection = Vector3.zero;
@@ -50,14 +51,17 @@ public class WalkController : MonoBehaviour {
 	
 	
 	
-	// Check if the character can grapple to the wall
+	// Check if the character can grapple onto a dirtWall
 	
 	void OnTriggerEnter(Collider target){
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
+			direction = Mathf.Sign (moveDirection.x)*-1;
 		}
-		direction = Mathf.Sign (moveDirection.x)*-1;
-		Debug.Log(direction);
+		if (target.transform.tag.Equals("spikes")){
+			Debug.Log("DEAD");
+			isAlive = false;
+		}
 		
 	}
 	
@@ -66,5 +70,7 @@ public class WalkController : MonoBehaviour {
 			isGrappable = false;
 		}
 	}
+	
+	
 }
 
