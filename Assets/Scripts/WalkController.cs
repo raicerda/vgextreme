@@ -6,22 +6,30 @@ public class WalkController : MonoBehaviour {
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
 	public bool isAlive = true;
+	public bool onAir;
 	private float direction;
 	public bool isGrappable = false;
     private Vector3 moveDirection = Vector3.zero;
 	public CharacterController controller;
+	public int distance;
 	
 	void Start(){
 		controller = GetComponent<CharacterController>();
 		direction = 1;
+		distance = 0;
 	}
 	
     void Update() {
+		if (onAir){ distance++; Debug.Log(distance);}
         if (controller.isGrounded) {
+			if (distance > 60) Debug.Log("DEAD BY FALL");
+			onAir = false;
+			distance = 0;
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
             if (Input.GetButton("Jump")){
+				onAir = true;
                 moveDirection.y = jumpSpeed;
 			}
         }else{
@@ -36,8 +44,10 @@ public class WalkController : MonoBehaviour {
 		if(Input.GetKey(KeyCode.Z)){
 			if(isGrappable){
 				moveDirection.Set(moveDirection.x,0,0);
-				//TODO Sprite Changes
+				onAir = false;
+				distance = 0;
 				if(Input.GetButton ("Jump")){
+					onAir = true;
 					moveDirection.y = jumpSpeed;
 					moveDirection.x = jumpSpeed*direction;
 				}
