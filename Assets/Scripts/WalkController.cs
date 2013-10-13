@@ -62,6 +62,10 @@ public class WalkController : MonoBehaviour {
 			Debug.Log("DEAD");
 			isAlive = false;
 		}
+		if (target.transform.tag.Equals("killerObject")){
+			target.transform.parent.rigidbody.velocity = new Vector3(0,-10,0);
+			Debug.Log("Caigo");
+		}
 		
 	}
 	
