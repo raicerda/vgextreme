@@ -56,8 +56,12 @@ public class WalkController : MonoBehaviour {
 		if (target.transform.tag.Equals("dirtWall")) {
 			isGrappable = true;
 		}
+		if (target.transform.tag.Equals("killerObject")){
+			target.transform.parent.rigidbody.velocity = new Vector3(0,-10,0);
+			Debug.Log("Caigo");
+		}
 		direction = Mathf.Sign (moveDirection.x)*-1;
-		Debug.Log(direction);
+		//Debug.Log(direction);
 		
 	}
 	
